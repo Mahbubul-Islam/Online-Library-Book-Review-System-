@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
@@ -40,6 +41,7 @@ def home(request):
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     reviews = book.reviews.all()
+    form = None
     
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -61,3 +63,42 @@ def book_detail(request, pk):
         'average_rating': book.average_rating(),
     }
     return render(request, 'books/book_detail.html', context)
+
+# User registrations
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # auto-login after registration
+            messages.success(request, 'Registration successful!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'auth/register.html', {'form': form})
+
+# User login
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()  
+            login(request, user)
+            messages.success(request, 'Login successful!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'auth/login.html', {'form': form})
+
+# User logout
+@login_required
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'You have been logged out successfully!')
+    return redirect('home')
+        
