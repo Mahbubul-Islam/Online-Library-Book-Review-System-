@@ -3,9 +3,9 @@ import os
 from django.contrib.auth.models import User
 # Create your models here.
 
-# save files according to instance name
+# save files according to book id
 def book_cover_directory_name(instance, filename):
-    return os.path.join('Books/media', instance.title, filename)
+    return os.path.join('Books/covers', filename)
 
 # 1. Category
 class Category(models.Model):
