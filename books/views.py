@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Book, Category, Review
 from .forms import UserRegistrationForm, UserLoginForm, ReviewForm
 
@@ -28,9 +29,22 @@ def home(request):
             books = books.filter(category__name__iexact=category_id)
     
     categories = Category.objects.all()
+    
+    # Pagination - 6 books per page
+    paginator = Paginator(books, 6)
+    page_number = request.GET.get('page')
+    
+    try:
+        books_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page
+        books_page = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range, deliver last page of results
+        books_page = paginator.page(paginator.num_pages)
 
     context = {
-        'books': books,
+        'books': books_page,
         'categories': categories,
         'query': query,
         'selected_category': category_id,
