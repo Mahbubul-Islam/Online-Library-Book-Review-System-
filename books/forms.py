@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Review
 
+# User registration form
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(
         required= True,
@@ -12,8 +13,39 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username','email','password1','password2']
         
-        Widgets = {
+        widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm password'}), 
+        }
+        
+# User login form
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
+    )
+
+# Review form
+
+class ReviewForm(forms.ModelForm):
+    rating = forms.ChoiceField(
+        choices=[(i, str(i)) for i in range(1, 6)],
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        required=False,
+        label="Rating (1–5)"
+    )
+    
+    class Meta:
+        model = Review
+        fields = ['comment', 'rating']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'form-control',
+                'placeholder': 'Write your review here...'
+            }),
         }
