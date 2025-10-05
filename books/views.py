@@ -36,4 +36,28 @@ def home(request):
     }
     return render(request, 'books/home.html', context)
 
+# Book details
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    reviews = book.reviews.all()
+    
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.user = request.user
+                review.book = book
+                review.save()
+                messages.success(request, 'Your review has been posted!')
+                return redirect('book_detail', pk=book.pk)
+        else:
+            form = ReviewForm()
 
+    context = {
+        'book': book,
+        'reviews': reviews,
+        'form': form,
+        'average_rating': book.average_rating(),
+    }
+    return render(request, 'books/book_detail.html', context)
