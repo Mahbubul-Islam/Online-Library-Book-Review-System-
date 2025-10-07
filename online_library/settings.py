@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-%@+g32u96idan-tr1*++udhwr6=elkp7yotlbiw(9f$3&6p3sa
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['https://online-library-book-review-system.onrender.com','online-library-book-review-system.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://online-library-book-review-system.onrender.com']
 
 # Application definition
 
