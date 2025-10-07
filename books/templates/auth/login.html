@@ -1,0 +1,150 @@
+{% extends 'base.html' %} {% block title %}Login - Online Library{% endblock %}
+{% block content %}
+<div
+	class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+	<div class="max-w-md w-full space-y-8">
+		<!-- Header -->
+		<div class="text-center">
+			<div
+				class="mx-auto h-16 w-16 rounded-full flex items-center justify-center mb-4 shadow-lg"
+				style="background-color: #234c6a">
+				<i class="fas fa-sign-in-alt text-white text-2xl"></i>
+			</div>
+			<h2 class="text-3xl font-extrabold" style="color: #1b3c53">
+				Welcome Back
+			</h2>
+			<p class="mt-2 text-sm" style="color: #456882">Sign in to your account</p>
+		</div>
+
+		<!-- Login Form -->
+		<div class="bg-white rounded-lg shadow-lg p-8">
+			<form method="POST" action="{% url 'login' %}" class="space-y-6">
+				{% csrf_token %}
+
+				<!-- Username -->
+				<div>
+					<label
+						for="{{ form.username.id_for_label }}"
+						class="block text-sm font-semibold mb-2"
+						style="color: #1b3c53">
+						<i class="fas fa-user mr-1" style="color: #456882"></i> Username
+					</label>
+					<div class="relative group">
+						<div
+							class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+							<i
+								class="fas fa-user text-gray-400 group-focus-within:text-gray-600 transition-colors"></i>
+						</div>
+						<input
+							type="text"
+							name="{{ form.username.name }}"
+							id="{{ form.username.id_for_label }}"
+							required
+							style="border-color: #d2c1b6"
+							class="w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:ring-4 transition-all duration-200 outline-none shadow-sm"
+							onfocus="this.style.borderColor='#456882'; this.style.boxShadow='0 0 0 4px rgba(69, 104, 130, 0.2)'"
+							onblur="this.style.borderColor='#d2c1b6'; this.style.boxShadow=''"
+							onmouseover="if(this!==document.activeElement) this.style.borderColor='#c4b3a8'"
+							onmouseout="if(this!==document.activeElement) this.style.borderColor='#d2c1b6'"
+							placeholder="Enter your username" />
+					</div>
+					{% if form.username.errors %}
+					<p class="mt-2 text-sm text-red-600 flex items-center">
+						<i class="fas fa-exclamation-circle mr-1"></i>
+						{{ form.username.errors.0 }}
+					</p>
+					{% endif %}
+				</div>
+
+				<!-- Password -->
+				<div>
+					<label
+						for="{{ form.password.id_for_label }}"
+						class="block text-sm font-semibold mb-2"
+						style="color: #1b3c53">
+						<i class="fas fa-lock mr-1" style="color: #456882"></i> Password
+					</label>
+					<div class="relative group">
+						<div
+							class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+							<i
+								class="fas fa-lock text-gray-400 group-focus-within:text-gray-600 transition-colors"></i>
+						</div>
+						<input
+							type="password"
+							name="{{ form.password.name }}"
+							id="{{ form.password.id_for_label }}"
+							required
+							style="border-color: #d2c1b6"
+							class="w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:ring-4 transition-all duration-200 outline-none shadow-sm"
+							onfocus="this.style.borderColor='#456882'; this.style.boxShadow='0 0 0 4px rgba(69, 104, 130, 0.2)'"
+							onblur="this.style.borderColor='#d2c1b6'; this.style.boxShadow=''"
+							onmouseover="if(this!==document.activeElement) this.style.borderColor='#c4b3a8'"
+							onmouseout="if(this!==document.activeElement) this.style.borderColor='#d2c1b6'"
+							placeholder="Enter your password" />
+					</div>
+					{% if form.password.errors %}
+					<p class="mt-2 text-sm text-red-600 flex items-center">
+						<i class="fas fa-exclamation-circle mr-1"></i>
+						{{ form.password.errors.0 }}
+					</p>
+					{% endif %}
+				</div>
+				<!-- Non-field errors -->
+				{% if form.non_field_errors %}
+				<div class="bg-red-50 border-l-4 border-red-400 p-4">
+					<div class="flex">
+						<i class="fas fa-exclamation-circle text-red-400 mr-3"></i>
+						<div>
+							{% for error in form.non_field_errors %}
+							<p class="text-sm text-red-700">{{ error }}</p>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				{% endif %}
+
+				<!-- Submit Button -->
+				<div>
+					<button
+						type="submit"
+						class="w-full text-white font-bold py-3.5 px-4 rounded-lg transition-all duration-200 transform active:scale-[0.98] focus:outline-none shadow-lg"
+						style="background: linear-gradient(to right, #234c6a, #456882)"
+						onmouseover="this.style.background='linear-gradient(to right, #1b3c53, #234c6a)'; this.style.transform='scale(1.02)'"
+						onmouseout="this.style.background='linear-gradient(to right, #234c6a, #456882)'; this.style.transform='scale(1)'">
+						<i class="fas fa-sign-in-alt mr-2"></i> Sign In
+					</button>
+				</div>
+			</form>
+
+			<!-- Register Link -->
+			<div class="mt-6 text-center">
+				<p class="text-sm" style="color: #456882">
+					Don't have an account?
+					<a
+						href="{% url 'register' %}"
+						class="font-semibold transition"
+						style="color: #234c6a"
+						onmouseover="this.style.color='#1b3c53'"
+						onmouseout="this.style.color='#234c6a'">
+						Register here
+					</a>
+				</p>
+			</div>
+		</div>
+
+		<!-- Info Box -->
+		<div
+			class="border-l-4 p-4 rounded shadow-sm"
+			style="background-color: #f0ebe6; border-color: #456882">
+			<div class="flex">
+				<i class="fas fa-info-circle mr-3 mt-1" style="color: #456882"></i>
+				<div class="text-sm" style="color: #1b3c53">
+					<p class="font-semibold mb-1">Note:</p>
+					<p>Only registered users can write reviews and rate books.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
