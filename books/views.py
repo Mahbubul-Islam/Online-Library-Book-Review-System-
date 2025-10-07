@@ -30,7 +30,7 @@ def home(request):
     
     categories = Category.objects.all()
     
-    # Pagination - 6 books per page
+    # Pagination - 6 books per page (3x2 grid)
     paginator = Paginator(books, 6)
     page_number = request.GET.get('page')
     
