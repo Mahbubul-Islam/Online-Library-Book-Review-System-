@@ -125,8 +125,8 @@ A modern, responsive Django web application for browsing books, viewing details,
 
 7. **Access the application:**
 
-   - **Main Site:** <http://127.0.0.1:8000/>
-   - **Admin Panel:** <http://127.0.0.1:8000/admin/>
+   - **Main Site:** <https://online-library-book-review-system.onrender.com/>
+   - **Admin Panel:** <https://online-library-book-review-system.onrender.com/admin/>
 
 ## 📖 Usage Guide
 
@@ -134,7 +134,7 @@ A modern, responsive Django web application for browsing books, viewing details,
 
 1. **Login to Admin Panel:**
 
-   - Go to <http://127.0.0.1:8000/admin/>
+   - Go to <https://online-library-book-review-system.onrender.com/admin/>
    - Use your superuser credentials
 
 2. **Add Categories:**
